@@ -4,7 +4,6 @@ const parser = require("@babel/parser");
 const traverse = require("@babel/traverse").default;
 const babel = require("@babel/core");
 
-// Hi
 const moduleAnalyser = (filename) => {
   const content = fs.readFileSync(filename, "utf-8");
   console.log(content);
