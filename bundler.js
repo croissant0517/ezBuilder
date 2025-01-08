@@ -10,7 +10,7 @@ const moduleAnalyser = (filename) => {
   const ast = parser.parse(content, {
     sourceType: "module",
   }); // AST
-  // console.log(ast);
+  console.log(ast);
   // console.log(ast.program.body);
 };
 
