@@ -11,9 +11,14 @@ fs.readFile(filePath, "utf8", function (err, data) {
 
   const result = data.replace(/console\.log\(message\);/g, "");
   // const result = data;
-  console.log(result);
+  // console.log(result);
 
-  fs.writeFile(filePath, result, "utf8", function (err) {
+  const outputDir = path.join(__dirname, "dist");
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir);
+  }
+
+  fs.writeFile(`${outputDir}/index.js`, result, "utf8", function (err) {
     if (err) return console.log(err);
   });
 });

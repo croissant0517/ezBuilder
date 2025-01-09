@@ -5,28 +5,36 @@ const traverse = require("@babel/traverse").default;
 const babel = require("@babel/core");
 const generator = require("@babel/generator").default;
 
-const moduleAnalyser = (path) => {
-  const content = fs.readFileSync(path, "utf-8");
-  // console.log(content);
+const moduleAnalyser = (filePath) => {
+  const content = fs.readFileSync(filePath, "utf-8");
+  console.log(content);
   const ast = parser.parse(content, {
     sourceType: "module",
   }); // AST
-  // console.log(ast);
   // console.log(ast.program.body);
   traverse(ast, {
     CallExpression(path) {
-      console.log("path", path);
-
       if (
         path.node.callee.type === "MemberExpression" &&
-        path.node.callee.object.name === "console"
+        path.node.callee.object.name === "console" &&
+        path.node.callee.property.name === "log"
       ) {
+        // console.log("path", path.node.callee.property.name);
+
         path.remove();
       }
     },
   });
+
   let output = generator(ast, {});
   // console.log(output.code);
+
+  const outputDir = path.join(__dirname, "dist");
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir);
+  }
+
+  fs.writeFileSync(`${outputDir}/index.js`, output.code, "utf-8");
 };
 
-const moduleInfo = moduleAnalyser("./src/index.js");
+moduleAnalyser("./src/index.js");
