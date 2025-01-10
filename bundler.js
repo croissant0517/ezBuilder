@@ -7,7 +7,7 @@ const generator = require("@babel/generator").default;
 
 const moduleAnalyser = (filePath) => {
   const content = fs.readFileSync(filePath, "utf-8");
-  console.log(content);
+  // console.log(content);
   const ast = parser.parse(content, {
     sourceType: "module",
   }); // AST
@@ -20,7 +20,6 @@ const moduleAnalyser = (filePath) => {
         path.node.callee.property.name === "log"
       ) {
         // console.log("path", path.node.callee.property.name);
-
         path.remove();
       }
     },
